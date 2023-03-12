@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class Clock : MonoBehaviour
 {
+    [SerializeField]
+    private ClockVariables m_clockVariables = null;
+
     private ReadOnlyCollection<TimeZoneInfo> m_timezones;
     private TimeZoneInfo m_curTimeZone;
 
@@ -24,16 +27,17 @@ public class Clock : MonoBehaviour
     }
 
 
-    public DateTime GetLocalDateTime()
+    private void Update()
     {
         DateTime utcTime = DateTime.UtcNow;
         DateTime newLocalTime = TimeZoneInfo.ConvertTimeBySystemTimeZoneId(utcTime, m_curTimeZone.Id);
-        return newLocalTime;
+        m_clockVariables.SetDateTime(newLocalTime);
     }
 
 
     public void SetTimeZone(TimeZoneInfo newTimeZone)
     {
         m_curTimeZone = newTimeZone;
+        m_clockVariables.SetTimeZone(m_curTimeZone);
     }
 }
