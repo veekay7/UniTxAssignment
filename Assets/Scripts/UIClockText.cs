@@ -8,6 +8,8 @@ public class UIClockText : MonoBehaviour
     [SerializeField]
     private bool m_timeFormat24Hour = false;
     [SerializeField]
+    private bool m_showSeconds = false;
+    [SerializeField]
     private TMP_Text m_textComponent = null;
 
     public bool TimeIn24HourFormat 
@@ -29,9 +31,15 @@ public class UIClockText : MonoBehaviour
         if (m_textComponent != null && m_clockVariables != null)
         {
             if (m_timeFormat24Hour)
-                m_textComponent.text = m_clockVariables.CurrentDateTime.ToString("HH:mm:ss");
-            else
-                m_textComponent.text = m_clockVariables.CurrentDateTime.ToString("hh:mm:ss tt");
+            {
+                string format = m_showSeconds ? "HH:mm:ss" : "HH:mm";
+                m_textComponent.text = m_clockVariables.CurrentDateTime.ToString(format);
+            }
+            else 
+            {
+                string format = m_showSeconds ? "hh:mm:ss tt" : "hh:mm tt";
+                m_textComponent.text = m_clockVariables.CurrentDateTime.ToString(format);
+            } 
         }
     }
 }

@@ -12,7 +12,7 @@ public class CountdownTimer : MonoBehaviour
     public const long k_DefaultStartTime = (10 * k_MillisecondsPerMin);          // Default start time is at 10 minutes (600 seconds).
     public const long k_IncrementInterval = (1 * k_MillisecondsPerMin);          // Increment by 1 minute intervals.
     public const long k_CountdownRangeMin = (1 * k_MillisecondsPerMin);          // Countdown timer min time = 1 minute (60 secs).
-    public const long k_CountdownRangeMax = (60 * k_MillisecondsPerMin);         // Countdown timer max time = 60 minutes (3600 secs).
+    public const long k_CountdownRangeMax = (59 * k_MillisecondsPerMin);         // Countdown timer max time = 60 minutes (3600 secs).
 
     private ETimerState m_state;
     private bool m_canResetTimer;
@@ -24,12 +24,27 @@ public class CountdownTimer : MonoBehaviour
     /// <summary>
     /// Returns the current state of the timer.
     /// </summary>
-    public ETimerState State { get { return m_state; } }
+    public ETimerState State { get => m_state; }
 
     /// <summary>
-    /// The time remaining in the countdown timer in seconds.
+    /// Returns the start time of the timer.
+    /// </summary>
+    public TimeSpan StartTime { get => TimeSpan.FromMilliseconds(m_startTime); }
+
+    /// <summary>
+    /// The time remaining in the countdown timer.
     /// </summary>
     public TimeSpan TimeRemaining { get => TimeSpan.FromMilliseconds(m_timeRemaining); }
+
+    /// <summary>
+    /// Returns the start time in milliseconds.
+    /// </summary>
+    public long StartTimeMilliseconds { get => m_startTime; }
+
+    /// <summary>
+    /// Returns the start time in milliseconds.
+    /// </summary>
+    public long TimeRemainingMilliseconds { get => m_timeRemaining; }
 
 
     public static long MinutesToMilliseconds(long min) { return min * k_MillisecondsPerMin; }
@@ -44,22 +59,24 @@ public class CountdownTimer : MonoBehaviour
     private void Awake()
     {
         m_startTime = k_DefaultStartTime;
+        m_timeRemaining = m_startTime;
     }
 
 
     private void Update()
     {
-        // This flag allows the timer to be reset when the timer state is paused or stopped!
-        m_canResetTimer = m_state == ETimerState.Paused || m_state == ETimerState.Stopped;
+        // This flag allows the timer to be reset when the timer state is ticking or paused!
+        m_canResetTimer = m_state == ETimerState.Ticking || m_state == ETimerState.Paused;
 
         // Just continue ticking if we are allowed to tick!
         if (m_state == ETimerState.Ticking)
         {
             m_timeRemaining -= SecondsToMilliseconds(Time.unscaledDeltaTime);
-            if (m_timeRemaining == 0)
+            if (m_timeRemaining <= 0)
             {
                 m_timeRemaining = 0;
                 OnTimerFinishedEvent.Invoke();
+                StopTimer();
             }
         }
     }
@@ -67,24 +84,26 @@ public class CountdownTimer : MonoBehaviour
 
     public void IncrementStartTime()
     {
-        m_startTime += k_DefaultStartTime;
+        m_startTime += k_IncrementInterval;
         ClampStartTime();
+        m_timeRemaining = m_startTime;
     }
 
 
     public void DecrementStartTime()
     {
-        m_startTime -= k_DefaultStartTime;
+        m_startTime -= k_IncrementInterval;
         ClampStartTime();
+        m_timeRemaining = m_startTime;
     }
 
 
     private void ClampStartTime()
     {
-        if (m_startTime <= k_CountdownRangeMin)
-            m_startTime = k_CountdownRangeMin;
-        else if (m_startTime >= k_CountdownRangeMax)
+        if (m_startTime < k_CountdownRangeMin)
             m_startTime = k_CountdownRangeMax;
+        else if (m_startTime > k_CountdownRangeMax)
+            m_startTime = k_CountdownRangeMin;
     }
 
 
@@ -122,5 +141,12 @@ public class CountdownTimer : MonoBehaviour
             return;
 
         m_state = ETimerState.Paused;
+    }
+
+
+    public void ResetDefaults()
+    {
+        m_startTime = k_DefaultStartTime;
+        m_timeRemaining = m_startTime;
     }
 }
