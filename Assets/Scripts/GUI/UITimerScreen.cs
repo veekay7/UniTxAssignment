@@ -6,36 +6,23 @@ using UnityEngine.UI;
 
 public class UITimerScreen : MonoBehaviour
 {
-    [SerializeField]
-    private CountdownTimer m_countdownTimer;
+    [SerializeField] private CountdownTimer m_countdownTimer;
 
     [Header("GUI Components")]
-    [SerializeField]
-    private Image m_backgroundImg = null;
-    [SerializeField]
-    private Image m_timerRadialFillImg = null;
-    [SerializeField]
-    private TMP_Text m_timeRemainingTxt = null;
-    [SerializeField]
-    private CanvasGroup m_timerGroup = null;
-    [SerializeField]
-    private CanvasGroup m_timerAlarmGroup = null;
-    [SerializeField]
-    private LeanShake m_timerDismissBtn = null;
+    [SerializeField] private Image m_timerRadialFillImg = null;
+    [SerializeField] private TMP_Text m_timeRemainingTxt = null;
+    [SerializeField] private CanvasGroup m_timerGroup = null;
+    [SerializeField] private CanvasGroup m_timerAlarmGroup = null;
+    [SerializeField] private LeanShake m_timerDismissBtn = null;
 
     [Header("Buttons")]
-    [SerializeField]
-    private Button m_startBtn = null;
-    [SerializeField]
-    private Button m_pauseBtn = null;
-    [SerializeField]
-    private Button m_resetBtn = null;
-    [SerializeField]
-    private Button m_refreshBtn = null;
-    [SerializeField]
-    private Button m_increaseTimeBtn = null;
-    [SerializeField]
-    private Button m_decreaseTimeBtn = null;
+    [SerializeField] private Button m_startBtn = null;
+    [SerializeField] private Button m_pauseBtn = null;
+    [SerializeField] private Button m_resetBtn = null;
+    [SerializeField] private Button m_refreshBtn = null;
+    [SerializeField] private Button m_increaseTimeBtn = null;
+    [SerializeField] private Button m_decreaseTimeBtn = null;
+
 
     private AudioSource m_audioSrc;
 
@@ -99,7 +86,7 @@ public class UITimerScreen : MonoBehaviour
 
         if (m_timeRemainingTxt != null)
         {
-            m_timeRemainingTxt.text = string.Format("{0:00}:{1:00}", 
+            m_timeRemainingTxt.text = string.Format("{0:00}:{1:00}",
                 m_countdownTimer.TimeRemaining.Minutes, m_countdownTimer.TimeRemaining.Seconds);
         }
     }
@@ -140,7 +127,7 @@ public class UITimerScreen : MonoBehaviour
             // When we are paused, the following will happen:
             // 1. Hide Pause button.
             m_pauseBtn.gameObject.SetActive(false);
-            
+
             // 2. Show the Start button, so we can resume the timer.
             m_startBtn.gameObject.SetActive(true);
         }
@@ -157,7 +144,7 @@ public class UITimerScreen : MonoBehaviour
         {
             m_countdownTimer.IncrementStartTime();
         }
-        else if (target == m_decreaseTimeBtn) 
+        else if (target == m_decreaseTimeBtn)
         {
             m_countdownTimer.DecrementStartTime();
         }

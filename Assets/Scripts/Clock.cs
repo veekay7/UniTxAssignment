@@ -4,8 +4,7 @@ using UnityEngine;
 
 public class Clock : MonoBehaviour
 {
-    [SerializeField]
-    private ClockVariables m_clockVariables = null;
+    [SerializeField] private ClockVariables m_clockVariables = null;
 
     private ReadOnlyCollection<TimeZoneInfo> m_timezones;
     private TimeZoneInfo m_curTimeZone;

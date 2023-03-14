@@ -5,32 +5,21 @@ using UnityEngine.UI;
 public class UIClockScreen : MonoBehaviour
 {
     [Header("Clock reference")]
-    [SerializeField]
-    private ClockVariables m_clockVariables = null;
+    [SerializeField] private ClockVariables m_clockVariables = null;
 
     [Header("GUI Components")]
-    [SerializeField]
-    private Image m_hourSliderBgImg = null;
-    [SerializeField]
-    private Image m_hourSliderFillImg = null;
-    [SerializeField]
-    private Image m_minuteSliderBgImg = null;
-    [SerializeField]
-    private Image m_minuteSliderFillImg = null;
-    [SerializeField]
-    private Image m_secondsSliderBgImg = null;
-    [SerializeField]
-    private Image m_secondsSliderFillImg = null;
+    [SerializeField] private Image m_hourSliderBgImg = null;
+    [SerializeField] private Image m_hourSliderFillImg = null;
+    [SerializeField] private Image m_minuteSliderBgImg = null;
+    [SerializeField] private Image m_minuteSliderFillImg = null;
+    [SerializeField] private Image m_secondsSliderBgImg = null;
+    [SerializeField] private Image m_secondsSliderFillImg = null;
 
     [Header("Hour hand colours")]
-    [SerializeField]
-    private Color m_daytimeBgColour = Color.grey;
-    [SerializeField]
-    private Color m_nighttimeBgColour = Color.grey;
-    [SerializeField]
-    private Color m_daytimeColour = Color.red;
-    [SerializeField]
-    private Color m_nighttimeColour = Color.blue;
+    [SerializeField] private Color m_daytimeBgColour = Color.grey;
+    [SerializeField] private Color m_nighttimeBgColour = Color.grey;
+    [SerializeField] private Color m_daytimeColour = Color.red;
+    [SerializeField] private Color m_nighttimeColour = Color.blue;
 
     private bool m_initHourHandColour;
     private bool m_lerpHourHandColour;
